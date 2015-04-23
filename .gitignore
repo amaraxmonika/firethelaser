@@ -1,4 +1,4 @@
 *.swp
 /node_modules/*
 www/node_modules/*
-www/node_mouse/node_modules/*
+www/node_mouse/electron_test/node_modules/*
