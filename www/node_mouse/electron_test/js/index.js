@@ -5,10 +5,6 @@ var ipc = require('ipc');
 // Ipc is used for async inter process communication
 // between page thread and main program thread.
 // Functions similar to socket.io
-ipc.on('ping', function (message) {
-    alert('yay ping works' + message);
-});
-
 
 // Function definitions for websocket
 socket.on('connect', function () {
@@ -29,11 +25,11 @@ socket.on('connect', function () {
 // functions. This method logs event and calls
 // ipc thread on backend to move mouse
 moveMousePosition = function (data) {
-    console.log("X: " + data.x + " Y: " + data.y);
+    //console.log("X: " + data.x + " Y: " + data.y);
     ipc.send('mouseMove', data);
 }
 
 mouseClick = function (data) {
-    console.log('left click');
+    //console.log('left click');
     ipc.send('leftClick', data);
 }
