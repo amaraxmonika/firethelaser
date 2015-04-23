@@ -1,3 +1,4 @@
 *.swp
 /node_modules/*
 www/node_modules/*
+www/node_mouse/node_modules/*

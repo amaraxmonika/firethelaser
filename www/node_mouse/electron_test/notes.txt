@@ -1,0 +1,3 @@
+How I fixed node-gyp robotjs error
+    Followed instructions for THE NPM WAY here
+        https://github.com/atom/electron/blob/master/docs/tutorial/using-native-node-modules.md
