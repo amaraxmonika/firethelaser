@@ -2,6 +2,8 @@ var app = require('app');  // Module to control application life.
 var BrowserWindow = require('browser-window');  // Module to create native browser window.
 var robot = require('robotjs');
 var ipc = require('ipc');
+var Tray = require('tray');
+var Menu = require('menu');
 //var robot = '';
 
 // Report crashes to our server.
@@ -17,15 +19,28 @@ app.on('window-all-closed', function() {
     app.quit();
 });
 
+var appIcon = null;
 // This method will be called when Electron has done everything
 // initialization and ready for creating browser windows.
 app.on('ready', function() {
   // Create the browser window.
   //mainWindow = new BrowserWindow({width: 800, height: 600});
+  appIcon = new Tray('/Users/chasejohnson/projects/fireTheLaser/www/node_mouse/electron_test/img/Fire_logo.png');
+  //tray.setImage('/Users/chasejohnson/projects/fireTheLaser/www/node_mouse/electron_test/img/Fire_logo.png');
+  var contextMenu = Menu.buildFromTemplate([
+      { label: 'Item1', type: 'radio' },
+      { label: 'Item2', type: 'radio' },
+      { label: 'Item3', type: 'radio', checked: true },
+      { label: 'Item4', type: 'radio' },
+  ]);
+
+  appIcon.setToolTip('This is my application.');
+  appIcon.setContextMenu(contextMenu);
   var window_obj = {
       width: 400, 
       height: 200, 
       frame: false, 
+      transparent: true,
       'always-on-top': true,
       x: 1000,
       y: 1000,
@@ -35,8 +50,6 @@ app.on('ready', function() {
 
   // and load the index.html of the app.
   mainWindow.loadUrl('file://' + __dirname + '/index.html');
-  //mainWindow.loadUrl('http://beardownforwhat.com');
-  //mainWindow.loadUrl('http://104.236.77.85');
 
   // fires when page is ready
   mainWindow.webContents.on('did-finish-load', function(){
@@ -45,6 +58,14 @@ app.on('ready', function() {
 
   // fires when mouse move event has fired
   ipc.on('mouseMove', function(event, data){
+      var mouse = robot.getMousePos();
+      //console.log('mouse is at x: ' + mouse.x + ' y: ' + mouse.y);
+      //console.log('data is x: ' + data.x + ' y: ' + data.y);
+      // moving mouse here
+      robot.moveMouse(mouse.x+data.x, mouse.y+data.y);
+  });
+
+  ipc.on('mouseMoveRelative', function(event, data){
       var mouse = robot.getMousePos();
       //console.log('mouse is at x: ' + mouse.x + ' y: ' + mouse.y);
       //console.log('data is x: ' + data.x + ' y: ' + data.y);

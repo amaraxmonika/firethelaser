@@ -15,6 +15,11 @@ socket.on('connect', function () {
         moveMousePosition(data);
     });
 
+    // Relative move cursor event
+    socket.on('moveCursorRelative', function (data) {
+        moveMouseRelativePosition(data);
+    });
+
     // Click event sent from server
     socket.on('leftClickCursor', function (data) {
         mouseClick(data);
@@ -27,6 +32,11 @@ socket.on('connect', function () {
 moveMousePosition = function (data) {
     //console.log("X: " + data.x + " Y: " + data.y);
     ipc.send('mouseMove', data);
+}
+
+moveMouseRelativePosition = function (data) {
+    //console.log("X: " + data.x + " Y: " + data.y);
+    ipc.send('mouseMoveRelative', data);
 }
 
 mouseClick = function (data) {
