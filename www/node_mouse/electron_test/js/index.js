@@ -31,8 +31,10 @@ socket.on('connect', function () {
 // ipc thread on backend to move mouse
 moveMousePosition = function (data) {
     //console.log("X: " + data.x + " Y: " + data.y);
-    ipc.send('mouseMove', data);
+    //ipc.send('mouseMove', data);
+    ipc.send('moveWindow', {'x':data.x,'y': data.y});
 }
+
 
 moveMouseRelativePosition = function (data) {
     //console.log("X: " + data.x + " Y: " + data.y);
@@ -42,4 +44,13 @@ moveMouseRelativePosition = function (data) {
 mouseClick = function (data) {
     //console.log('left click');
     ipc.send('leftClick', data);
+}
+
+// Switch to move mouse or laser
+function toggleMouse() {
+    ipc.send('toggleMouse', 'hi');
+}
+
+function testMove(x, y){
+    ipc.send('moveWindow', {'x':x,'y': y});
 }

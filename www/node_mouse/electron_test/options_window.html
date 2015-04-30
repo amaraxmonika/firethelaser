@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fire the laser</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <script>
+    </script>
+    <a href="#" class="button" id="mouseButton">
+      <span id="buttonText">Mouse</span>
+    </a>
+    <!--
+    <a href="#" class="button">
+      <span>Hover Me</span>
+    </a>
+    -->
+    <div id="circle"></div>
+    <!--<script src="http://localhost:3000/socket.io/socket.io.js"></script>-->
+    <script src="http://104.236.77.85/socket.io/socket.io.js"></script>
+    <script src="js/options_window.js"></script>
+    <script>
+        var mouse = document.getElementById('mouseButton'); 
+        mouse.onclick = function () {
+            //alert('this works');
+            var textVal = document.getElementById('buttonText');
+            if (textVal.innerText === 'MOUSE'){
+                // Change to laser
+                textVal.innerText = 'LASER';
+                toggleMouse();
+                console.log('done');
+            }
+            else{
+                // Change to mouse
+                textVal.innerText = 'MOUSE';
+                toggleMouse();
+                console.log('done');
+            }
+        };
+    </script>
+  </body>
+</html>

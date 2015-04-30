@@ -12,6 +12,7 @@ require('crash-reporter').start();
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the javascript object is GCed.
 var mainWindow = null;
+var mouseSelected = false;
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function() {
@@ -47,9 +48,11 @@ app.on('ready', function() {
       center: false
   };
   mainWindow = new BrowserWindow(window_obj);
+  mainWindow2 = new BrowserWindow(window_obj);
 
   // and load the index.html of the app.
   mainWindow.loadUrl('file://' + __dirname + '/index.html');
+  mainWindow2.loadUrl('file://' + __dirname + '/options_window.html');
 
   // fires when page is ready
   mainWindow.webContents.on('did-finish-load', function(){
@@ -77,6 +80,25 @@ app.on('ready', function() {
   ipc.on('leftClick', function(event, data){
        robot.mouseClick();
        console.log('left mouse click server');
+  });
+
+  // testing window position redraw
+  ipc.on('moveWindow', function (event, data){
+        //mainWindow.setPosition(data.x, data.y);
+        var xy = mainWindow.getPosition();
+        if (mouseSelected){
+              var mouse = robot.getMousePos();
+              robot.moveMouse(mouse.x+data.x, mouse.y+data.y);
+        }
+        else{
+            mainWindow.setPosition(data.x + xy[0], data.y + xy[1]);
+        }
+        console.log('setting pos: ' + data.x + ' y: ' + data.y);
+  });
+
+  ipc.on('toggleMouse', function (event, data) {
+        console.log('toggle mouse event');
+        mouseSelected = !mouseSelected ;
   });
   // Emitted when the window is closed.
   mainWindow.on('closed', function() {

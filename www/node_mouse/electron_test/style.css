@@ -91,3 +91,12 @@ sup  { font-size: 36px; font-weight: 100; line-height: 55px; }
     right: 0;
     top: 50%;
 }
+
+/* circle stuff here */
+#circle {
+    background: #f00;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+}
+
