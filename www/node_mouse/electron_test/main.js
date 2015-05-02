@@ -20,13 +20,11 @@ app.on('window-all-closed', function() {
     app.quit();
 });
 
-var appIcon = null;
 // This method will be called when Electron has done everything
 // initialization and ready for creating browser windows.
 app.on('ready', function() {
   // Create the browser window.
   //mainWindow = new BrowserWindow({width: 800, height: 600});
-  appIcon = new Tray('/Users/chasejohnson/projects/fireTheLaser/www/node_mouse/electron_test/img/Fire_logo.png');
   //tray.setImage('/Users/chasejohnson/projects/fireTheLaser/www/node_mouse/electron_test/img/Fire_logo.png');
   var contextMenu = Menu.buildFromTemplate([
       { label: 'Item1', type: 'radio' },
@@ -35,8 +33,6 @@ app.on('ready', function() {
       { label: 'Item4', type: 'radio' },
   ]);
 
-  appIcon.setToolTip('This is my application.');
-  appIcon.setContextMenu(contextMenu);
   var window_obj = {
       width: 400, 
       height: 200, 
