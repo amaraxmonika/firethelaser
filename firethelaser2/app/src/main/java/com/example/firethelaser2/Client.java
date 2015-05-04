@@ -6,23 +6,16 @@ import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.URISyntaxException;
-import java.text.DecimalFormat;
 
 public class Client {
 
 	private static Client cl;
 	private static Socket ws;
-	private double prevX;
-	private double prevY;
-	private static final String sx = "x";
-	private static final String sy = "y";
-    private DecimalFormat df = new DecimalFormat("#.#########");
 
 	private Client() {
 		try {
@@ -33,8 +26,6 @@ public class Client {
 			e.printStackTrace(pw);
 			Log.e("URIException: ", sw.toString());
 		}
-		prevX = Double.NaN;
-		prevY = Double.NaN;
 	}
 
 	public static Client getInstance() {
@@ -53,36 +44,12 @@ public class Client {
 	}
 
 
-	public void sendMessage(double x, double y) {
-        Log.w("Sending Message:", "x: " + x + " y: " + y);
-		if (!ws.connected()) {
-			connect();
-		}
-		if (!Double.isNaN(prevX) && ws.connected()) {
-			Log.w("Sending Message:", "x: " + x + " y: " + y);
-            Long cx, cy;
-            cx = Math.round(x*50);
-            cy = Math.round(y*50);
-			prevX = x;
-			prevY = y;
-			
-			JSONObject coordinates = new JSONObject();
-			try {
-				coordinates.put(sx, cx);
-				coordinates.put(sy, cy);
-			} catch (JSONException e) {
-				StringWriter sw = new StringWriter();
-				PrintWriter pw = new PrintWriter(sw);
-				e.printStackTrace(pw);
-				Log.e("JSONException: ", sw.toString());
-			}
-			ws.emit("moveCursorEvent", coordinates.toString());
-		} else {
-			prevX = x;
-			prevY = y;
-			//Log.d("Initial touch:", "not sending message: " + x + " " + y);
-		}
-	}
+    public void sendMessage(String event, JSONObject obj){
+        if(!ws.connected()){
+            connect();
+        }
+        ws.emit(event, obj.toString());
+    }
 
 	private void connect() {
 		try {

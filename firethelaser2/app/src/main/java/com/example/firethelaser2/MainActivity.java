@@ -11,7 +11,7 @@ import android.graphics.Point;
 
 public class MainActivity extends Activity implements SensorEventListener {
 
-	private SensorManager sm;
+	private static SensorManager sm;
 	private Sensor sAccel, sMagnet, sGyro;
 	private float[] mGravity, mGeomagnetic, mGyro;
 	private float prevAzimuth, prevPitch, prevRoll;
