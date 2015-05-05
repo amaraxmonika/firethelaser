@@ -1,7 +1,6 @@
 // File for registering socket listeners
-var mongoClient = require('./mongoClient.js')
 
-module.exports = function (io) {
+module.exports = function (io, addUser, queryUser) {
     
     //var ioSocket = io(server)
     io.on('connection', function (socket) {
@@ -39,16 +38,23 @@ module.exports = function (io) {
             io.emit('leftClickCursor', data);
         });
 
+        // handler if user changes cursor color
+        socket.on('changeCursor', function (data) {
+            io.emit('changeEvent');
+        });
+
         // handler if sent user data object
         socket.on('addUser', function (data) {
             console.log('addUser: ');
             console.dir(data);
+            addUser(data)
         });
 
         // handler if query user
         socket.on('queryUser', function (data) {
             console.log('queryUser: ');
             console.dir(data);
+            queryUser(data)
         });
     });
 }
