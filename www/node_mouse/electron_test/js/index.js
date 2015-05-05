@@ -24,6 +24,11 @@ socket.on('connect', function () {
     socket.on('leftClickCursor', function (data) {
         mouseClick(data);
     });
+
+    // Click event to change cursor
+    socket.on('changeCursorEvent', function () {
+        changeCursor();
+    });
 });
 
 // Trying to decouple mouse events from socket
@@ -34,6 +39,16 @@ moveMousePosition = function (data) {
     //ipc.send('mouseMove', data);
     ipc.send('moveWindow', {'x':data.x,'y': data.y});
 }
+
+changeCursor = function () {
+    var rotationMap = {
+        'circle' : 'circle2',
+        'circle2': 'circle3',
+        'circle3': 'circle'
+    }
+    var cursor = document.querySelector('.circle')
+    cursor.id = rotationMap[cursor.id];
+};
 
 
 moveMouseRelativePosition = function (data) {
