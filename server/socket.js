@@ -34,13 +34,14 @@ module.exports = function (io, addUser, queryUser) {
             io.emit('moveCursorRelative', data);
         });
         socket.on('leftClick', function (data){
+            data = JSON.parse(data);
             console.dir("data.x: " + data.x + " data.y: " + data.y);
             io.emit('leftClickCursor', data);
         });
 
         // handler if user changes cursor color
         socket.on('changeCursor', function (data) {
-            io.emit('changeEvent');
+            io.emit('changeCursorEvent');
         });
 
         // handler if sent user data object
