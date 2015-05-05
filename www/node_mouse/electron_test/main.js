@@ -34,13 +34,13 @@ app.on('ready', function() {
   ]);
 
   var window_obj = {
-      width: 400, 
-      height: 200, 
+      width: 300, 
+      height: 100, 
       frame: false, 
       transparent: true,
       'always-on-top': true,
-      x: 1000,
-      y: 1000,
+      x: 5000,
+      y: 5000,
       center: false
   };
   mainWindow = new BrowserWindow(window_obj);

@@ -4,57 +4,43 @@ var io = require('socket.io')(server);
 var fs = require('fs');
 var router = require('./routes.js')
 var websocket = require('./socket.js')
+var mongoose = require('mongoose')
 
-server.listen(8080);
+// Server listening on port 80
+server.listen(80);
+
+// Setting up connection to mongoDB
+var connString = 'mongodb://db1_test:password@dbh46.mongolab.com:27467/fire_the_laser'
+mongoose.connect(connString)
 
 // registering router events 
 router(app)
 
-// registering websocket events
-websocket(io)
 
-/*
-// websocket stuff
-io.on('connection', function (socket) {
-    socket.on('data', function (data){
-        //console.dir("data: " + data.data);
-        /*
-        data = JSON.parse(data.toString());
-        data = data.toString();
-        console.dir(data);
-        console.dir("data: " + data.x);
-        console.dir("data: " + data.y);
-       //
-        
-    });
-    socket.on('moveCursorEvent', function (data){
-        //console.dir(data);
-        if (data.x == undefined || data == undefined){
-            //data = JSON.parse(data.toString());
-            data = JSON.parse(data);
-            console.dir(data);
-            //data = data.toString();
-            //console.dir(data);
-        }
-        console.dir("data: " + data.x);
-        console.dir("data: " + data.y);
-        io.emit('moveCursor', data);
-        
-    });
-    socket.on('mouseRelativeCursorEvent', function (data){
-        if (data.x == undefined){
-            data = JSON.parse(data.toString());
-            data = data.toString();
-        }
-        console.dir("data: " + data.x);
-        console.dir("data: " + data.y);
-        io.emit('moveCursorRelative', data);
-    });
-    socket.on('leftClick', function (data){
-        console.dir("data: " + data.x);
-        console.dir("data: " + data.y);
-        io.emit('leftClickCursor', data);
-        
-    });
+// Setting up mongoose Schema
+var User = mongoose.model('User', {
+    name: String,
+    pass: String, 
+    role: String, 
+    cursor: String
 });
-*/
+
+var addUser = function (user) {
+    var dbUser = new User (user);
+    dbUser.save(function (err) {
+        if (err) console.log('there was an error');
+        console.log('success');
+    });
+
+};
+
+var queryUser = function (user) {
+    User.findOne({ 'name': user.name, 'pass': user.pass }, 
+                 function (err, person) {
+        console.log('found one');
+        console.dir(person);
+    });
+}
+
+// registering websocket events
+websocket(io, addUser, queryUser)
