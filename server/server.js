@@ -5,7 +5,7 @@ var fs = require('fs');
 var router = require('./routes.js')
 var websocket = require('./socket.js')
 
-server.listen(8080);
+server.listen(80);
 
 // registering router events 
 router(app)

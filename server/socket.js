@@ -1,6 +1,6 @@
-//var io = require('socket.io')
+// File for registering socket listeners
+var mongoClient = require('./mongoClient.js')
 
-//module.exports = function (server) {
 module.exports = function (io) {
     
     //var ioSocket = io(server)
@@ -37,6 +37,18 @@ module.exports = function (io) {
         socket.on('leftClick', function (data){
             console.dir("data.x: " + data.x + " data.y: " + data.y);
             io.emit('leftClickCursor', data);
+        });
+
+        // handler if sent user data object
+        socket.on('addUser', function (data) {
+            console.log('addUser: ');
+            console.dir(data);
+        });
+
+        // handler if query user
+        socket.on('queryUser', function (data) {
+            console.log('queryUser: ');
+            console.dir(data);
         });
     });
 }
