@@ -1,9 +1,10 @@
-var io = require('socket.io')
+//var io = require('socket.io')
 
-module.exports = function (server) {
+//module.exports = function (server) {
+module.exports = function (io) {
     
-    var ioSocket = io(server)
-    ioSocket.on('connection', function (socket) {
+    //var ioSocket = io(server)
+    io.on('connection', function (socket) {
         socket.on('data', function (data){
             
         });
