@@ -4,6 +4,7 @@ package com.example.firethelaser2;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,8 +16,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import org.bson.Document;
+import org.json.JSONObject;
 
 public class LoginActivity extends Activity  {
 
@@ -138,6 +138,8 @@ public class LoginActivity extends Activity  {
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password, type);
             mAuthTask.execute((Void) null);
+            Intent newActivity = new Intent(this, CalibratingActivity.class);
+            startActivity(newActivity);
             //Toast.makeText(this.getApplicationContext(), "User stuff: "+currUser.getUser_email()+" "+currUser.getUser_role()+" .", Toast.LENGTH_LONG).show();
         }
     }
@@ -205,24 +207,20 @@ public class LoginActivity extends Activity  {
             /*Query the database to see if the entered email and password do
             * not already exist within the database
             */
-            if (request == REGATTEMPT) {
-                //Query DB to see if account exists
-                if (dbHelper.doesEmailExist(mEmail)) {
-                    return false;
-                }
-                //Insert the user into the DB
-                dbHelper.insertUser(mEmail, mPassword, "student");
-            }
-
-            //The user is attempting to log in
-            Document userDoc = dbHelper.getUser(mEmail,mPassword);
+            JSONObject userDoc = dbHelper.getUser(mEmail, mPassword);
             if ( userDoc == null ) {
                 return false;
-            } else {
-                currUser = new UserProfile(userDoc.getString("email"), userDoc.getString("password"), userDoc.getString("role"));
-
             }
             return true;
+            //The user is attempting to log in
+//            Document userDoc = dbHelper.getUser(mEmail,mPassword);
+//            if ( userDoc == null ) {
+//                return false;
+//            } else {
+//                currUser = new UserProfile(userDoc.getString("email"), userDoc.getString("password"), userDoc.getString("role"));
+//
+//            }
+//            return true;
         }
 
         @Override
@@ -239,6 +237,9 @@ public class LoginActivity extends Activity  {
                     mEmailView.requestFocus();
                 }
             }
+
+
+
         }
 
         @Override

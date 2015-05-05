@@ -1,12 +1,19 @@
 package com.example.firethelaser2;
 
 
+import android.util.Log;
+
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
 import org.bson.Document;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 import static com.mongodb.client.model.Filters.eq;
 /**
@@ -63,37 +70,38 @@ public class DBHelper {
      */
     public boolean insertUser (String email, String password, String role) {
 
+        Client myClient = Client.getInstance();
+        myClient.clientConnect();
+        JSONObject userDoc = new JSONObject();
         try {
-            //Connect to a single mongoClient
-            MongoClient myClient = new MongoClient(new MongoClientURI("mongodb://general:firethelaser@ds053139.mongolab.com:53139/firethelaser"));
-            //Declare the MongoDB to use to perform updates to the firethelaser db
-            MongoDatabase userDB = myClient.getDatabase("firethelaser");
-            //Get the USERS collection
-            MongoCollection<Document> userCollection = userDB.getCollection("Users");
+            userDoc.put("email", email);
+            userDoc.put("password", password);
+            userDoc.put("role", role);
+        } catch (JSONException e) {
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            e.printStackTrace(pw);
+            Log.e("JSONException: ", sw.toString());
+        }
+        if (userDoc != null) {
+            myClient.sendMessage("queryUser", userDoc);
 
-            /*
-             * Uncomment this when creating the user_id along with the new user account.
-            //Query DB to find the userCount
-            Document dbUserCount = userCollection.find(eq("user_id","userCount")).first();
-            int userCount = dbUserCount.getInteger("user_id");
-            mesages//Using userCount
-            //Using the userCollection, insert a new user document into the DB
-            */
-            //Create a newUser document to insert into the firethelaser Db
-            Document newUser = new Document("user_id", "u00000")
-                    .append("email",""+email)
-                    .append("password",""+password)
-                    .append("role", ""+role );
-
-            userCollection.insertOne(newUser);
-            if (myClient != null) {
-                myClient.close();
+            try {
+                JSONObject mess = null;
+                while ((mess = myClient.getdataMessage()) == null) {
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            System.out.println("Failed to connect via URI");
+
+            if (myClient.isClientConnected()) {
+                myClient.clientDisconnect();
+            }
+
+            return true;
+        } else {
             return false;
         }
-        return true;
     }
 
     /**
@@ -102,23 +110,35 @@ public class DBHelper {
      *
      * Returns NULL when the user doesn't exist or a failed login attempt
      */
-    public Document getUser (String email, String pwd) {
-        //Format the URI to connect to the appropriate DB
-        MongoClientURI ftlURI = new MongoClientURI("mongodb://general:firethelaser@ds053139.mongolab.com:53139/firethelaser");
-        //Create the MongoClient to access the DB
-        MongoClient myClient = new MongoClient(ftlURI);
-        //Connect the firethelaser database to gain access to the collections
-        MongoDatabase userDB = myClient.getDatabase("firethelaser");
-        //Access the USERS collection to gain access to each document
-        MongoCollection<Document> userCollection = userDB.getCollection("Users");
-
-        //Query DB to find the desired user
-        Document currUser = userCollection.find(eq("email", email)).first();
-        if (myClient != null) {
-            myClient.close();
+    public JSONObject getUser (String email, String pwd) {
+        Client myClient = Client.getInstance();
+        myClient.clientConnect();
+        JSONObject userDoc = new JSONObject();
+        try {
+            userDoc.put("email", email);
+            userDoc.put("password", pwd);
+        } catch (JSONException e) {
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            e.printStackTrace(pw);
+            Log.e("JSONException: ", sw.toString());
         }
-        if ( currUser != null && currUser.getString("password").equals(pwd)) {
-            return currUser;
+        if (userDoc != null) {
+            myClient.sendMessage("queryUser", userDoc);
+
+            try {
+                JSONObject mess = null;
+                while ((mess = myClient.getdataMessage()) == null) {
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            if (myClient.isClientConnected()) {
+                myClient.clientDisconnect();
+            }
+
+            return userDoc;
         } else {
             return null;
         }

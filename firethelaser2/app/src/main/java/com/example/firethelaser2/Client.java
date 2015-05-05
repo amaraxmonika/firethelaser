@@ -17,6 +17,7 @@ public class Client implements Emitter.Listener{
     private static Client cl;
     private static Socket ws;
     private static Observer obv;
+    private JSONObject datamessage;
 
     private Client() {
         try {
@@ -69,6 +70,7 @@ public class Client implements Emitter.Listener{
         if (ws.connected()) {
             Log.d("WebSocketConnection: ", "Connected!");
             ws.on("messageEvent", this);
+            ws.on("database", database);
         } else {
             Log.e("Connection: ", "Not Connected!");
         }
@@ -78,6 +80,19 @@ public class Client implements Emitter.Listener{
         ws.disconnect();
         ws.close();
     }
+
+    public JSONObject getdataMessage(){
+        JSONObject temp = datamessage;
+        datamessage = null;
+        return temp;
+    }
+
+    private Emitter.Listener database = new Emitter.Listener(){
+        @Override
+        public void call(Object... args){
+            datamessage = (JSONObject) args[0];
+        }
+    };
 
     @Override
     public void call(Object... args) {
