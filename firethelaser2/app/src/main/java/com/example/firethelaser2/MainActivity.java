@@ -1,5 +1,4 @@
 package com.example.firethelaser2;
-import android.util.Log;
 import android.app.Activity;
 import android.content.Context;
 import android.hardware.Sensor;
@@ -7,8 +6,11 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
-public class MainActivity extends Activity implements SensorEventListener {
+public class MainActivity extends Activity implements SensorEventListener, View.OnClickListener {
 
 	private static SensorManager sm;
 	private Sensor sAccel, sMagnet;
@@ -17,6 +19,8 @@ public class MainActivity extends Activity implements SensorEventListener {
     private double centerAzimuth;
 	private ClientThread ct;
     private Thread thread;
+    private Button mouse;
+    private Button click;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +42,8 @@ public class MainActivity extends Activity implements SensorEventListener {
 	protected void onPause() {
 		super.onPause();
 		sm.unregisterListener(this);
+        mouse.setOnClickListener(null);
+        click.setOnClickListener(null);
 	}
 
     @Override
@@ -93,6 +99,8 @@ public class MainActivity extends Activity implements SensorEventListener {
 		prevAzimuth = centerAzimuth=axisData[0];
 		prevPitch = axisData[1];
 		prevRoll = axisData[2];
+        mouse = (Button) findViewById(R.id.toggle);
+        click = (Button) findViewById(R.id.next);
 		ct = ClientThread.getInstance(this);
 		thread = new Thread(ct);
         thread.start();
@@ -107,6 +115,8 @@ public class MainActivity extends Activity implements SensorEventListener {
 	private void registerListeners() {
 		sm.registerListener(this, sAccel, SensorManager.SENSOR_DELAY_UI);
 		sm.registerListener(this, sMagnet, SensorManager.SENSOR_DELAY_UI);
+        mouse.setOnClickListener(this);
+        click.setOnClickListener(this);
 	}
 
 	private void doSomeMagic(float[] orientation) {
@@ -115,7 +125,7 @@ public class MainActivity extends Activity implements SensorEventListener {
             prevAzimuth = convertToReadableDegrees(orientation[0]);
             prevPitch = convertToReadableDegrees(orientation[1]);
             prevRoll = convertToReadableDegrees(orientation[2]);
-            ct.sendJSONMouseEvent(Math.sin(Math.toRadians(Math.abs(prevRoll))), Math.sin(Math.toRadians(Math.abs(prevPitch))));
+            ct.sendJSONMouseEvent("moveCursorEvent",Math.sin(Math.toRadians(Math.abs(prevRoll))), Math.sin(Math.toRadians(Math.abs(prevPitch))));
         }
     }
 	
@@ -130,4 +140,14 @@ public class MainActivity extends Activity implements SensorEventListener {
         return (Math.toDegrees(rad)+360)%360;
     }
 
+    @Override
+    public void onClick(View v) {
+        if(v.getId() == R.id.toggle){
+            ct.sendJSONMouseEvent("leftClick",Math.sin(Math.toRadians(Math.abs(prevRoll))), Math.sin(Math.toRadians(Math.abs(prevPitch))));
+        }
+        if(v.getId() == R.id.next){
+            ct.sendButtonMessage("changeCursor");
+        }
+
+    }
 }

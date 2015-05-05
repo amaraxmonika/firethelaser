@@ -51,6 +51,13 @@ public class Client implements Emitter.Listener{
         ws.emit(event, obj.toString());
     }
 
+    public void emitEvent(String event){
+        if(!ws.connected()){
+            connect();
+        }
+        ws.emit(event);
+    }
+
     public void addThread(Observer obv) {
         this.obv = obv;
     }

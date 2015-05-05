@@ -14,11 +14,11 @@
     <string name="error_invalid_password">This password is too short</string>
     <string name="hello_world">Hello world!</string>
     <string name="helloworld">Hello World!</string>
-    <string name="next">Next</string>
+    <string name="next">Color Change</string>
     <string name="previous">Previous</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>
-    <string name="toggle">Toggle Laser</string>
+    <string name="toggle">Click</string>
     <!-- From: file:/Users/Darshan/Desktop/firethelaser/firethelaser2/app/src/main/res/values/styles.xml -->
     <eat-comment/>
     <style name="AppBaseTheme" parent="android:Theme.Light">

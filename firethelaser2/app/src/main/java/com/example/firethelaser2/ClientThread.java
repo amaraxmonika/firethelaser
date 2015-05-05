@@ -12,11 +12,11 @@ import java.io.StringWriter;
 public class ClientThread extends Observer implements Runnable {
     private Client cl;
     private JSONObject serverMessage;
-    private boolean readyToSend;
+    private boolean readyToSend, receivedMessage, buttonMessage;
     private JSONObject clientMessage;
-    private boolean receivedMessage;
     private static Activity currentAct;
     private static ClientThread ct;
+    private String eventMessage;
 
     private ClientThread(Activity act){
         cl = Client.getInstance();
@@ -24,7 +24,7 @@ public class ClientThread extends Observer implements Runnable {
             cl.clientConnect();
         }
         cl.addThread(this);
-        readyToSend = receivedMessage = false;
+        readyToSend = receivedMessage = buttonMessage = false;
         currentAct = act;
     }
 
@@ -43,7 +43,7 @@ public class ClientThread extends Observer implements Runnable {
     }
 
 
-    public void sendJSONMouseEvent(double x, double y){
+    public void sendJSONMouseEvent(String event, double x, double y){
         Long cx,cy;
         cx = Math.round(x*50);
         cy = Math.round(y*50);
@@ -59,19 +59,29 @@ public class ClientThread extends Observer implements Runnable {
 		}
         clientMessage = coordinates;
         readyToSend = true;
+        eventMessage = event;
+    }
+
+    public void sendButtonMessage(String event){
+        eventMessage = event;
+        buttonMessage = true;
     }
 
     @Override
     public void run() {
         while(true){
             if(readyToSend){
-                cl.sendMessage("moveCursorEvent", clientMessage);
+                cl.sendMessage(eventMessage, clientMessage);
                 readyToSend = false;
             }
             if(receivedMessage) {
                 if(currentAct instanceof MainActivity){
                     //TODO: Do something with Server JSON Object
                 }
+            }
+            if(buttonMessage){
+                cl.emitEvent(eventMessage);
+                buttonMessage = false;
             }
         }
     }
