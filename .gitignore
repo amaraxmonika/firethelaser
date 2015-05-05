@@ -1,5 +1,6 @@
 *.swp
 /node_modules/*
+server/node_modules/*
 www/node_modules/*
 www/node_mouse/electron_test/node_modules/*
 .DS_Store

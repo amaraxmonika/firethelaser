@@ -9,6 +9,20 @@
         <dex dex="/Users/Darshan/Desktop/firethelaser/firethelaser2/app/build/intermediates/pre-dexed/debug/engine.io-client-0.3.1-90561dfdcc64e176eae0860dd62cdcb620c12423.jar" />
     </item>
     <item
+        jar="/Users/Darshan/Desktop/firethelaser/firethelaser2/app/build/intermediates/exploded-aar/com.android.support/multidex/1.0.0/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="6666dd525c3da197e7d07f4f23ef5fc7881a697b">
+        <dex dex="/Users/Darshan/Desktop/firethelaser/firethelaser2/app/build/intermediates/pre-dexed/debug/classes-fba714dc635e367fa44e16fb65fc126a90afee82.jar" />
+    </item>
+    <item
+        jar="/Users/Darshan/.gradle/caches/modules-2/files-2.1/org.mongodb/mongo-java-driver/3.0.0/734a5acccbd07a545c22244159e373aba9e963f6/mongo-java-driver-3.0.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="734a5acccbd07a545c22244159e373aba9e963f6">
+        <dex dex="/Users/Darshan/Desktop/firethelaser/firethelaser2/app/build/intermediates/pre-dexed/debug/mongo-java-driver-3.0.0-269cdf1c66ae0f1e084acddfb9a41539bffd38d2.jar" />
+    </item>
+    <item
         jar="/Users/Darshan/Desktop/firethelaser/firethelaser2/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/classes.jar"
         jumboMode="false"
         revision="21.1.2"
@@ -21,6 +35,13 @@
         revision="21.1.2"
         sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
         <dex dex="/Users/Darshan/Desktop/firethelaser/firethelaser2/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-bc323c7ed32c5ff614b0f2473e9a14466d3de21f.jar" />
+    </item>
+    <item
+        jar="/Users/Darshan/.gradle/caches/modules-2/files-2.1/org.mongodb/bson/3.0.0/cfc83aa5119769909af2a6b6d8caf55e20653216/bson-3.0.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="cfc83aa5119769909af2a6b6d8caf55e20653216">
+        <dex dex="/Users/Darshan/Desktop/firethelaser/firethelaser2/app/build/intermediates/pre-dexed/debug/bson-3.0.0-0c84f0a70ef9ac26e3ddaffca73ff208a3207ad5.jar" />
     </item>
     <item
         jar="/Users/Darshan/.gradle/caches/modules-2/files-2.1/com.github.nkzawa/socket.io-client/0.3.0/8dfd7cf8d1124acb027b3ffd53eafcc518af3ba9/socket.io-client-0.3.0.jar"

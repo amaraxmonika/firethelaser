@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<script src="/socket.io/socket.io.js"></script>
+<script>
+var socket = io('');
+socket.on('connect', function(){
+
+    console.log("this works");
+    socket.emit('data', { data : 'this is data' });
+
+    socket.on('readyForFile', function (data) {
+        asyncFileSend(data);
+    });
+});
+
+var moveEvent = function (dx, dy){
+    socket.emit('moveCursorEvent', { 'x' : dx, 'y' : dy });  
+    console.log('emit move' + dx + ' ' + dy);
+};
+
+var mouseClick = function() {
+    socket.emit('leftClick', "nothing");
+    console.log("left click");
+};
+</script>
+<body>
+<p> THis works</p>
+<input type="button" onclick='moveEvent(0, 20);' value="down"></button>
+<input type="button" onclick='moveEvent(0, -20);'value="up"></button>
+<input type="button" onclick='moveEvent(20, 0);'value="right"></button>
+<input type="button" onclick='moveEvent(-20, 0);' value="left"></button>
+<input type="button" onclick='mouseClick();' value="click"></button>
+</body>
