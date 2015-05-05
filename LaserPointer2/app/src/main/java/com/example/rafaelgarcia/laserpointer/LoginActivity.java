@@ -23,8 +23,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import org.bson.Document;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -280,7 +279,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         protected Boolean doInBackground(Void... params) {
             /*Query the database to see if the entered email and password do
             * not already exist within the database
-            */
+
             if (request == REGATTEMPT) {
                 System.out.println("ATTEMPTING to REGISTER");
                 //Query DB to see if account exists
@@ -289,15 +288,14 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 }
                 //Insert the user into the DB
                 dbHelper.insertUser(mEmail, mPassword, "student");
-            }
+            } */
 
             //The user is attempting to log in
-            Document userDoc = dbHelper.getUser(mEmail,mPassword);
+//            Document userDoc = dbHelper.getUser(mEmail,mPassword);
+            //Use dbHelper to check if the current user exists
+            JSONObject userDoc = dbHelper.getUser(mEmail, mPassword);
             if ( userDoc == null ) {
                 return false;
-            } else {
-                currUser = new UserProfile(userDoc.getString("email"), userDoc.getString("password"), userDoc.getString("role"));
-                System.out.println("CURRUSER: "+currUser.getUser_email()+" | "+currUser.getUser_role());
             }
             return true;
         }
@@ -319,6 +317,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                     mEmailView.requestFocus();
                 }
             }
+
         }
 
         @Override
