@@ -1,0 +1,91 @@
+/*
+A Bootstrap 3.1 affix sidebar template
+from http://bootply.com
+
+This CSS code should follow the 'bootstrap.css'
+in your HTML file.
+
+license: MIT
+author: bootply.com
+*/
+
+body {
+ padding-top:50px;
+}
+
+#masthead { 
+ min-height:140px;
+ background-color: grey;
+ color: salmon;
+ border-bottom-style: solid;
+ border-color: salmon;
+}
+
+#leftCol {
+  min-height: 80px;
+  background-color: grey;
+  border-bottom-style: solid;
+  border-color: salmon;
+  border-right-style: solid;
+}
+
+#icons {
+  margin-left: auto;
+  margin-right: auto;
+  width: 290px;
+}
+
+#midCol {
+  min-height: 80px; 
+  background-color: grey;
+  border-bottom-style: solid;
+  border-color: salmon;
+  border-right-style: solid;
+  display: table-cell;
+  vertical-align: middle; 
+}
+
+#masthead h1 {
+ font-size: 25px;
+ line-height: 1;
+ padding-top:8px;
+}
+
+#masthead .well {
+ margin-top:8%;
+}
+
+@media screen and (min-width: 768px) {
+  #masthead h1 {
+    font-size: 50px;
+  }
+}
+
+.navbar-bright {
+ background-color:#111155;
+ color:#fff;
+}
+
+.affix-top,.affix{
+ position: static;
+}
+
+@media (min-width: 979px) {
+  #sidebar.affix-top {
+    position: static;
+  	margin-top:30px;
+  	width:228px;
+  }
+  
+  #sidebar.affix {
+    position: fixed;
+    top:70px;
+    width:228px;
+    background-color: salmon;
+  }
+}
+
+#sidebar li.active {
+  border:0 #eee solid;
+  border-right-width:5px;
+}

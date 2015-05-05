@@ -81,13 +81,18 @@ app.on('ready', function() {
   // testing window position redraw
   ipc.on('moveWindow', function (event, data){
         //mainWindow.setPosition(data.x, data.y);
+        console.log('data.x ' + data.x + ' data.y ' + data.y);
+        var x = parseInt(data.x);
+        var y = parseInt(data.y);
         var xy = mainWindow.getPosition();
         if (mouseSelected){
               var mouse = robot.getMousePos();
-              robot.moveMouse(mouse.x+data.x, mouse.y+data.y);
+              //robot.moveMouse(mouse.x+data.x, mouse.y+data.y);
+              robot.moveMouse(mouse.x+x, mouse.y+y);
         }
         else{
-            mainWindow.setPosition(data.x + xy[0], data.y + xy[1]);
+            //mainWindow.setPosition(data.x + xy[0], data.y + xy[1]);
+            mainWindow.setPosition(x + xy[0], y + xy[1]);
         }
         console.log('setting pos: ' + data.x + ' y: ' + data.y);
   });

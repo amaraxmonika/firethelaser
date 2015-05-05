@@ -54,7 +54,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 			if (mGravity == null) {
 				mGravity = event.values;
 			} else {
-				final float alpha = (float) 0.001;
+				final float alpha = (float) 0.0001;
 
 				// Isolate the force of gravity with the low-pass filter.
 				mGravity[0] = alpha * mGravity[0] + (1 - alpha)

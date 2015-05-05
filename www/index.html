@@ -1,5 +1,18 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
+<!--
+  Ralf added script tags
+-->
+  <link href="index.css" type="text/css" rel="stylesheet" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrap.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  <script src="index.js"></script>
+  <title>FireLaser!</title>
+<!-- End of added tags -->
+
 <script src="/socket.io/socket.io.js"></script>
 <script>
 var socket = io('');
@@ -78,5 +91,61 @@ function handleFileSelect(file, callback) {
 }
 </script>
 <body>
-<p> THis works</p>
+<nav class="navbar navbar-default navbar-fixed-top" role="banner">
+     <div class="container">
+       <div class="navbar-header">
+         <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+           <span class="sr-only">Toggle navigation</span>
+           <span class="icon-bar"></span>
+           <span class="icon-bar"></span>
+           <span class="icon-bar"></span>
+         </button>
+         <a href="/" class="navbar-brand">Fire The Laser</a>
+       </div>
+       <nav class="collapse navbar-collapse" role="navigation">
+         <ul class="nav navbar-nav">
+           <li>
+             <a href="#ProjectDescription">Project Description</a>
+           </li>
+           <li>
+             <a href="#Team">Team Members</a>
+           </li>
+         </ul>
+       </nav>
+     </div>
+   </nav>
+
+   <div id="masthead">  
+     <div class="container">
+       <div class="row">
+         <div class="col-md-7">
+           <h1>Fire The Laser
+             <p class="lead">Kickass 397C Project</p>
+           </h1>
+         </div> 
+       </div> 
+     </div><!--/container-->
+   </div><!--/masthead-->
+
+  <!--main-->
+  <div class="container">
+	  <div class="row">
+      <!--left-->
+      <div id="leftCol" class="col-md-4">
+        <ul class="nav nav-stacked">
+          <li><button href="#something" id="hashButton" type="button" onclick="hashFunction()" class="btn btn-danger">Generate Hash</button></li>
+          <li><textarea class="form-control" rows="1" id="hashCode" readonly></textarea></li>
+        </ul>
+      </div><!--/left-->
+      <!--Mid col for choosing icon design-->
+      <div class="col-md-4" id="midCol">
+        <select name="cars" id="icons">
+          <option value="icon_film">Icon 1: <span class="glyphicon glyphicon-film"/></option>
+          <option value="icon_asterisk">Icon 2: <span class="glyphicon glyphicon-asterisk"/></option>
+          <option value="icon_music">Icon 3: <span class="glyphicon glyphicon-music"/></option>
+          <option value="icon_glass">Icon 4: <span class="glyphicon glyphicon-glass"/></option>
+        </select>
+      </div>
+  	</div><!--/row-->
+  </div><!--/container-->
 </body>
