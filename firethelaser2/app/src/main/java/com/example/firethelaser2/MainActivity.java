@@ -1,5 +1,5 @@
 package com.example.firethelaser2;
-
+import android.util.Log;
 import android.app.Activity;
 import android.content.Context;
 import android.hardware.Sensor;
@@ -7,15 +7,16 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.graphics.Point;
 
 public class MainActivity extends Activity implements SensorEventListener {
 
 	private static SensorManager sm;
-	private Sensor sAccel, sMagnet, sGyro;
-	private float[] mGravity, mGeomagnetic, mGyro;
-	private float prevAzimuth, prevPitch, prevRoll;
+	private Sensor sAccel, sMagnet;
+	private float[] mGravity, mGeomagnetic;
+	private double prevAzimuth, prevPitch, prevRoll;
+    private double centerAzimuth;
 	private ClientThread ct;
+    private Thread thread;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +40,13 @@ public class MainActivity extends Activity implements SensorEventListener {
 		sm.unregisterListener(this);
 	}
 
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        sm.unregisterListener(this);
+        thread.interrupt();
+    }
+
 	@Override
 	public void onSensorChanged(SensorEvent event) {
 		// TODO Auto-generated method stub
@@ -61,10 +69,6 @@ public class MainActivity extends Activity implements SensorEventListener {
 			mGeomagnetic = event.values;
 		}
 
-        if(event.sensor.getType()== Sensor.TYPE_GYROSCOPE){
-            mGyro = event.values;
-        }
-
 		if (mGravity != null && mGeomagnetic != null) {
 			float R[] = new float[9];
 			float I[] = new float[9];
@@ -85,54 +89,45 @@ public class MainActivity extends Activity implements SensorEventListener {
 	
 	private void setup(){
 		sm = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-		prevAzimuth = Float.NaN;
-		prevPitch = Float.NaN;
-		prevRoll = Float.NaN;
-		ct = new ClientThread();
-		new Thread(ct).start();
+        double[] axisData = (double[]) this.getIntent().getDoubleArrayExtra("Axis");
+		prevAzimuth = centerAzimuth=axisData[0];
+		prevPitch = axisData[1];
+		prevRoll = axisData[2];
+		ct = ClientThread.getInstance(this);
+		thread = new Thread(ct);
+        thread.start();
+
 	}
 
 	private void getSensors() {
 		sAccel = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 		sMagnet = sm.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-        sGyro = sm.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
 	}
 
 	private void registerListeners() {
 		sm.registerListener(this, sAccel, SensorManager.SENSOR_DELAY_UI);
 		sm.registerListener(this, sMagnet, SensorManager.SENSOR_DELAY_UI);
-        sm.registerListener(this, sGyro, SensorManager.SENSOR_DELAY_UI);
 	}
 
 	private void doSomeMagic(float[] orientation) {
-		if(Float.isNaN(prevAzimuth)) {
-			prevAzimuth = orientation[0];
-			prevPitch = orientation[1];
-			prevRoll = orientation[2];
-		}
-		else
-		{
-			if(checkThreshhold(orientation)){
-                Point size = new Point();
-                prevAzimuth = orientation[0];
-                prevPitch = orientation[1];
-                prevRoll = orientation[2];
-                ct.setX((Math.sin(prevAzimuth)));
-                ct.setY((Math.sin(prevPitch)));
-       // ct.setZ(Math.toDegrees((double) prevRoll));
-                 ct.toggleSend();
-                ct.run();
-			}
-		}
+		if(checkThreshold(orientation)) {
+            Log.d("Sensors" , "PrevAzimuth: " + prevAzimuth + "centerAzimuth: " + centerAzimuth);
+            prevAzimuth = convertToReadableDegrees(orientation[0]);
+            prevPitch = convertToReadableDegrees(orientation[1]);
+            prevRoll = convertToReadableDegrees(orientation[2]);
+            ct.sendJSONMouseEvent(Math.sin(Math.toRadians(Math.abs(prevRoll))), Math.sin(Math.toRadians(Math.abs(prevPitch))));
+        }
     }
-//	}
 	
-	private boolean checkThreshhold(float[] orientation){
-		//Log.w("change in azimuth: ", ""+ prevAzimuth + " " + orientation[0]);
-		boolean bazimuth = (Math.abs((prevAzimuth - orientation[0])) > 0.09);
-		boolean bpitch = (Math.abs((prevPitch - orientation[1])) > 0.09);
-		boolean broll = (Math.abs((prevRoll - orientation[2])) > 0.09);
-		return bazimuth || bpitch || broll;
+	private boolean checkThreshold(float[] orientation){
+		boolean b_azimuth = (Math.abs((prevAzimuth - convertToReadableDegrees(orientation[0]))) > 2);
+		boolean b_pitch = (Math.abs((prevPitch - convertToReadableDegrees(orientation[1]))) > 2);
+		boolean b_roll = (Math.abs((prevRoll - convertToReadableDegrees(orientation[2]))) > 2);
+		return b_azimuth || b_pitch || b_roll;
 	}
+
+    private double convertToReadableDegrees(float rad){
+        return (Math.toDegrees(rad)+360)%360;
+    }
 
 }

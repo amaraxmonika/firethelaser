@@ -1,5 +1,6 @@
 package com.example.firethelaser2;
 
+import android.app.Activity;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -8,37 +9,39 @@ import org.json.JSONObject;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-public class ClientThread implements Runnable {
-    private volatile double x, y, z;
-    private volatile double pax, pay, paz;
+public class ClientThread extends Observer implements Runnable {
     private Client cl;
-    private volatile boolean send;
+    private JSONObject serverMessage;
+    private boolean readyToSend;
+    private JSONObject clientMessage;
+    private boolean receivedMessage;
+    private static Activity currentAct;
+    private static ClientThread ct;
 
-    public ClientThread(){
-        this.x = (double) 0.0;
-        this.y = (double) 0.0;
-        this.z = (double) 0.0;
+    private ClientThread(Activity act){
         cl = Client.getInstance();
-        cl.clientConnect();
-        this.send = false;
+        if(!cl.isClientConnected()){
+            cl.clientConnect();
+        }
+        cl.addThread(this);
+        readyToSend = receivedMessage = false;
+        currentAct = act;
     }
 
-    public void setX(double ax){
-            this.x = ax;
+    public static ClientThread getInstance(Activity act){
+        if(ct == null){
+            ct = new ClientThread(act);
+        }
+        else{
+            setActivity(act);
+        }
+        return ct;
     }
 
-
-    public void setY(double ay){
-            this.y = ay;
+    public static void setActivity(Activity act){
+        currentAct = act;
     }
 
-    public void setZ(double az) {
-        this.z = az;
-    }
-
-    public void toggleSend(){
-        this.send = true;
-    }
 
     public void sendJSONMouseEvent(double x, double y){
         Long cx,cy;
@@ -54,10 +57,29 @@ public class ClientThread implements Runnable {
 				e.printStackTrace(pw);
 				Log.e("JSONException: ", sw.toString());
 		}
+        clientMessage = coordinates;
+        readyToSend = true;
     }
+
     @Override
     public void run() {
-
+        while(true){
+            if(readyToSend){
+                cl.sendMessage("moveCursorEvent", clientMessage);
+                readyToSend = false;
+            }
+            if(receivedMessage) {
+                if(currentAct instanceof MainActivity){
+                    //TODO: Do something with Server JSON Object
+                }
+            }
+        }
     }
 
+
+    @Override
+    public void setJSONObject(JSONObject obj) {
+        serverMessage = obj;
+        receivedMessage = true;
+    }
 }

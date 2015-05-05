@@ -9,6 +9,7 @@
         android:targetSdkVersion="8" />
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <uses-feature android:name="android.hardware.SensorManager" />
@@ -22,6 +23,10 @@
         <activity
             android:name="com.example.firethelaser2.MainActivity"
             android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.example.firethelaser2.CalibratingActivity"
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,17 +1,16 @@
 package com.example.firethelaser2;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
-import android.hardware.SensorManager;
 import android.hardware.SensorEventListener;
-import android.content.Context;
+import android.hardware.SensorManager;
 import android.location.Location;
-import android.location.LocationManager;
 import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
-import android.content.Intent;
-import android.widget.TextView;
 
 /**
  * Created by Darshan on 4/30/15.
@@ -22,10 +21,12 @@ public class CalibratingActivity extends Activity implements SensorEventListener
     private static LocationManager lm;
     private Sensor sAccel, sMagnet;
     private float[] mGravity, mGeomagnetic;
-    private double[] axis, magnitude;
-    private boolean axisSetup, magnitudeSetup;
-    private int countMagnitude;
+    private double[] axis; //magnitude;
+    private boolean axisSetup;// magnitudeSetup;
+   // private int countMagnitude;
     private Location loc;
+    private ClientThread ct;
+    private Thread thread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +40,7 @@ public class CalibratingActivity extends Activity implements SensorEventListener
     @Override
     protected void onResume(){
         super.onResume();
+        registerListeners();
     }
 
     @Override
@@ -53,6 +55,7 @@ public class CalibratingActivity extends Activity implements SensorEventListener
         super.onDestroy();
         sm.unregisterListener(this);
         lm.removeUpdates(this);
+        thread.interrupt();
     }
 
 
@@ -97,7 +100,6 @@ public class CalibratingActivity extends Activity implements SensorEventListener
         if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
             mGeomagnetic = event.values;
         }
-
         if (mGravity != null && mGeomagnetic != null) {
             float R[] = new float[9];
             float I[] = new float[9];
@@ -119,8 +121,11 @@ public class CalibratingActivity extends Activity implements SensorEventListener
         lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         loc = null;
         axisSetup = false;
-        magnitudeSetup = false;
-        countMagnitude = 0;
+        ct = ClientThread.getInstance(this);
+        thread = new Thread(ct);
+        thread.start();
+        //magnitudeSetup = false;
+        //countMagnitude = 0;
     }
 
     private void getSensors() {
@@ -131,24 +136,24 @@ public class CalibratingActivity extends Activity implements SensorEventListener
     private void registerListeners() {
         sm.registerListener(this, sAccel, SensorManager.SENSOR_DELAY_UI);
         sm.registerListener(this, sMagnet, SensorManager.SENSOR_DELAY_UI);
-        lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2500, 0, this);
+        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2500, 0, this);
     }
 
     private void setUpOrientation(float[] orientation){
         if(!axisSetup){
             this.axis=setAxis(orientation);
             //if dot is not centered then axisSetup should still be false
-            axisSetup = false;
+            axisSetup = true;
         }else {
-            if (!magnitudeSetup) {
-                setTextOnActivity("Move the red dot to the blue dots");
-                this.magnitude=setMagnitude(orientation);
-                countMagnitude++;
-                if(countMagnitude == 4){
-                    //TODO: Start MainActivity
-                    sendMessage();
-                }
-            }
+//            if (!magnitudeSetup) {
+//                setTextOnActivity("Move the red dot to the blue dots");
+//                this.magnitude=setMagnitude(orientation);
+//                countMagnitude++;
+//                if(countMagnitude == 4){
+//
+              sendMessage();
+//                }
+//            }
         }
     }
 
@@ -160,17 +165,19 @@ public class CalibratingActivity extends Activity implements SensorEventListener
        return new double[]{azimuth,pitch,roll};
     }
 
-    private double[] setMagnitude(float[] orientation){
-        double azimuth = convertToReadableDegrees(orientation[0]);
-        double pitch = convertToReadableDegrees(orientation[1]);
-        double roll = convertToReadableDegrees(orientation[2]);
-        return new double[]{azimuth/axis[0], pitch/axis[1], roll/axis[2]};
-    }
+    //TODO: Will implement on a later time
 
-    private void setTextOnActivity(String instruction){
-        TextView mainText = (TextView) findViewById(R.id.instruction);
-        mainText.setText(instruction);
-    }
+//    private double[] setMagnitude(float[] orientation){
+//        double azimuth = convertToReadableDegrees(orientation[0]);
+//        double pitch = convertToReadableDegrees(orientation[1]);
+//        double roll = convertToReadableDegrees(orientation[2]);
+//        return new double[]{azimuth/axis[0], pitch/axis[1], roll/axis[2]};
+//    }
+
+//    private void setTextOnActivity(String instruction){
+//        TextView mainText = (TextView) findViewById(R.id.instruction);
+//        mainText.setText(instruction);
+//    }
 
     private double convertToReadableDegrees(float rad){
         return (Math.toDegrees(rad)+360)%360;
@@ -179,8 +186,9 @@ public class CalibratingActivity extends Activity implements SensorEventListener
     private void sendMessage(){
         Intent nextIntent = new Intent(this, MainActivity.class);
         nextIntent.putExtra("Axis", axis);
-        nextIntent.putExtra("Location", loc);
-        nextIntent.putExtra("Magnitude", magnitude);
+        //TODO:Implement Location at a later time
+       // nextIntent.putExtra("Location", loc);
+       // nextIntent.putExtra("Magnitude", magnitude);
         startActivity(nextIntent);
     }
 }
