@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/Darshan/.gradle/caches/modules-2/files-2.1/com.github.nkzawa/engine.io-client/0.3.1/3ca9d0d53a27ecb88538ed874be417cfa827db5d/engine.io-client-0.3.1.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="3ca9d0d53a27ecb88538ed874be417cfa827db5d">
+        <dex dex="/Users/Darshan/Desktop/firethelaser/firethelaser2/app/build/intermediates/pre-dexed/debug/engine.io-client-0.3.1-90561dfdcc64e176eae0860dd62cdcb620c12423.jar" />
+    </item>
+    <item
+        jar="/Users/Darshan/Desktop/firethelaser/firethelaser2/app/build/intermediates/exploded-aar/com.android.support/multidex/1.0.0/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="6666dd525c3da197e7d07f4f23ef5fc7881a697b">
+        <dex dex="/Users/Darshan/Desktop/firethelaser/firethelaser2/app/build/intermediates/pre-dexed/debug/classes-fba714dc635e367fa44e16fb65fc126a90afee82.jar" />
+    </item>
+    <item
+        jar="/Users/Darshan/.gradle/caches/modules-2/files-2.1/org.mongodb/mongo-java-driver/3.0.0/734a5acccbd07a545c22244159e373aba9e963f6/mongo-java-driver-3.0.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="734a5acccbd07a545c22244159e373aba9e963f6">
+        <dex dex="/Users/Darshan/Desktop/firethelaser/firethelaser2/app/build/intermediates/pre-dexed/debug/mongo-java-driver-3.0.0-269cdf1c66ae0f1e084acddfb9a41539bffd38d2.jar" />
+    </item>
+    <item
+        jar="/Users/Darshan/Desktop/firethelaser/firethelaser2/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="/Users/Darshan/Desktop/firethelaser/firethelaser2/app/build/intermediates/pre-dexed/debug/classes-2ca5666dfedaab0c2af3bb3bccf9b970b6d11db4.jar" />
+    </item>
+    <item
+        jar="/Users/Darshan/Desktop/firethelaser/firethelaser2/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/libs/internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="/Users/Darshan/Desktop/firethelaser/firethelaser2/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-bc323c7ed32c5ff614b0f2473e9a14466d3de21f.jar" />
+    </item>
+    <item
+        jar="/Users/Darshan/.gradle/caches/modules-2/files-2.1/org.mongodb/bson/3.0.0/cfc83aa5119769909af2a6b6d8caf55e20653216/bson-3.0.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="cfc83aa5119769909af2a6b6d8caf55e20653216">
+        <dex dex="/Users/Darshan/Desktop/firethelaser/firethelaser2/app/build/intermediates/pre-dexed/debug/bson-3.0.0-0c84f0a70ef9ac26e3ddaffca73ff208a3207ad5.jar" />
+    </item>
+    <item
+        jar="/Users/Darshan/.gradle/caches/modules-2/files-2.1/com.github.nkzawa/socket.io-client/0.3.0/8dfd7cf8d1124acb027b3ffd53eafcc518af3ba9/socket.io-client-0.3.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="8dfd7cf8d1124acb027b3ffd53eafcc518af3ba9">
+        <dex dex="/Users/Darshan/Desktop/firethelaser/firethelaser2/app/build/intermediates/pre-dexed/debug/socket.io-client-0.3.0-4499f2753ae5919a72e2f6fccc095c2f96fdbde5.jar" />
+    </item>
+    <item
+        jar="/Users/Darshan/.gradle/caches/modules-2/files-2.1/org.java-websocket/Java-WebSocket/1.3.0/db2658f013fb163de4a99274c2eb9e17efe535d2/Java-WebSocket-1.3.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="db2658f013fb163de4a99274c2eb9e17efe535d2">
+        <dex dex="/Users/Darshan/Desktop/firethelaser/firethelaser2/app/build/intermediates/pre-dexed/debug/Java-WebSocket-1.3.0-db82bd56cb34358f389d2590b3e221ecb206d725.jar" />
+    </item>
+    <item
+        jar="/Users/Darshan/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/21.0.3/support-annotations-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
+        <dex dex="/Users/Darshan/Desktop/firethelaser/firethelaser2/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-880974d5ea57a0d8e8906fde6e0403069e04b96b.jar" />
+    </item>
+
+</items>
