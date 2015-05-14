@@ -28,7 +28,6 @@ public class MainActivity extends Activity implements SensorEventListener, View.
 		setContentView(R.layout.activity_main);
 		setup();
 		getSensors();
-		registerListeners();
 	}
 
 	@Override

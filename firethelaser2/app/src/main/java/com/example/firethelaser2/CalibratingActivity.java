@@ -34,7 +34,6 @@ public class CalibratingActivity extends Activity implements SensorEventListener
         setContentView(R.layout.activity_calibrating);
         setup();
         getSensors();
-        registerListeners();
     }
 
     @Override

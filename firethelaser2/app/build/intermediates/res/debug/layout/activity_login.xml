@@ -38,7 +38,7 @@
         android:layout_height="wrap_content" android:hint="@string/prompt_email"
         android:inputType="textEmailAddress" android:maxLines="1"
         android:singleLine="true"
-        android:textColor="#ffffffff"
+        android:textColor="#ff000000"
         />
 
     <EditText android:id="@+id/password" android:layout_width="match_parent"
@@ -47,7 +47,7 @@
         android:imeActionLabel="@string/action_sign_in_short"
         android:imeOptions="actionUnspecified" android:inputType="textPassword"
         android:maxLines="1" android:singleLine="true"
-        android:textColor="#ffffffff"
+        android:textColor="#ff000000"
         />
 
     <Button android:id="@+id/sign_in_button" style="?android:textAppearanceSmall"
